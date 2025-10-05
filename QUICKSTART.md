@@ -52,12 +52,27 @@ clojure -M:test -e "(require 'chess-variants-display.core-test) (clojure.test/ru
 
 ## Using in your own project
 
+### Option 1: Git Dependency (Recommended)
+
 Add to your `deps.edn`:
 
 ```clojure
-{:deps {chess-variants-display {:git/url "https://github.com/arachtivix/chess-variants-display"
-                                :git/sha "latest-commit-sha"}}}
+{:deps {chess-variants-display/chess-variants-display 
+        {:git/url "https://github.com/arachtivix/chess-variants-display"
+         :git/sha "latest-commit-sha"}}}
 ```
+
+Replace `latest-commit-sha` with the SHA from the latest [release](https://github.com/arachtivix/chess-variants-display/releases).
+
+### Option 2: JAR Dependency
+
+Download the JAR from [releases](https://github.com/arachtivix/chess-variants-display/releases) and add to your `deps.edn`:
+
+```clojure
+{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+```
+
+### Using the Library
 
 Then in your code:
 
