@@ -116,6 +116,8 @@ The deployment workflow:
 - Deploys the demo.html file and any supporting assets
 - Updates the live demo within minutes of merging changes
 
+For detailed setup instructions and troubleshooting, see [GITHUB_PAGES.md](GITHUB_PAGES.md).
+
 ### Setting up GitHub Pages (First Time)
 
 If this is a new repository, you'll need to enable GitHub Pages:
