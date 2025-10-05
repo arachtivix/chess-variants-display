@@ -118,7 +118,19 @@ The SVG uses CSS classes for styling, making it easy to change colors:
 .chess-piece { fill: #000; }     /* Chess piece color */
 ```
 
-You can override these in your stylesheet to create different themes. See `demo.html` for examples of multiple color schemes.
+You can override these in your stylesheet to create different themes. For example, to create red pieces:
+
+```css
+.red-pieces .chess-piece { fill: #c62828; }
+```
+
+Or blue pieces:
+
+```css
+.blue-pieces .chess-piece { fill: #1565c0; }
+```
+
+See the [live demo](https://arachtivix.github.io/chess-variants-display/) for examples of multiple color schemes for both squares and pieces.
 
 ## Running Tests
 

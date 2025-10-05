@@ -31,7 +31,19 @@
         large-squares (checkerboard-with-pieces 6 6 :dark
                         {[0 0] :black-rook [0 5] :black-knight
                          [5 0] :white-knight [5 5] :white-rook
-                         [2 2] :white-bishop [3 3] :black-bishop} 70)]
+                         [2 2] :white-bishop [3 3] :black-bishop} 70)
+        
+        ;; Boards with custom piece colors
+        sample-pieces {[1 1] :white-queen [1 6] :black-king 
+                       [6 1] :black-knight [6 6] :white-rook}
+        red-pieces-board (checkerboard-with-pieces 8 8 :dark sample-pieces)
+        blue-pieces-board (checkerboard-with-pieces 8 8 :dark sample-pieces)
+        
+        ;; Same pieces, different top-left colors
+        demo-pieces {[2 2] :white-king [2 5] :black-queen
+                     [5 2] :black-rook [5 5] :white-bishop}
+        board-dark-topleft (checkerboard-with-pieces 8 8 :dark demo-pieces)
+        board-light-topleft (checkerboard-with-pieces 8 8 :light demo-pieces)]
     (str "<!DOCTYPE html>\n"
          "<html>\n"
          "<head>\n"
@@ -83,6 +95,13 @@
          "            fill: #000;\n"
          "            pointer-events: none;\n"
          "        }\n"
+         "        \n"
+         "        /* Colored piece themes */\n"
+         "        .red-pieces .chess-piece { fill: #c62828; }\n"
+         "        .blue-pieces .chess-piece { fill: #1565c0; }\n"
+         "        .purple-pieces .chess-piece { fill: #6a1b9a; }\n"
+         "        .gold-pieces .chess-piece { fill: #f9a825; }\n"
+         "        .white-pieces .chess-piece { fill: #ffffff; stroke: #000; stroke-width: 1; }\n"
          "        \n"
          "        /* Responsive container widths */\n"
          "        .small-board { max-width: 300px; }\n"
@@ -164,6 +183,37 @@
          "    <div class=\"board-container wood\">\n"
          "        <h3>Brown Wood Theme</h3>\n"
          "        " board-svg "\n"
+         "    </div>\n"
+         "    \n"
+         "    <h2>Custom Piece Colors</h2>\n"
+         "    <p>Chess pieces can be styled with different colors using CSS classes.</p>\n"
+         "    \n"
+         "    <div class=\"board-container chess red-pieces\">\n"
+         "        <h3>Red Pieces</h3>\n"
+         "        <p>Same pieces as below, but colored red using CSS.</p>\n"
+         "        " red-pieces-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container wood blue-pieces\">\n"
+         "        <h3>Blue Pieces</h3>\n"
+         "        <p>Same pieces as above, but colored blue using CSS.</p>\n"
+         "        " blue-pieces-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <h2>Top-Left Color Parameter Demonstration</h2>\n"
+         "    <p>The <code>top-left-color</code> parameter controls whether the top-left square is dark or light.</p>\n"
+         "    <p>Below are two boards with the same pieces but different top-left square colors:</p>\n"
+         "    \n"
+         "    <div class=\"board-container chess\">\n"
+         "        <h3>Top-Left: DARK (top-left-color = :dark)</h3>\n"
+         "        <p>The top-left square is a dark square.</p>\n"
+         "        " board-dark-topleft "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container chess\">\n"
+         "        <h3>Top-Left: LIGHT (top-left-color = :light)</h3>\n"
+         "        <p>The top-left square is a light square. Notice the checkerboard pattern is inverted.</p>\n"
+         "        " board-light-topleft "\n"
          "    </div>\n"
          "</body>\n"
          "</html>")))
