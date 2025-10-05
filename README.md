@@ -2,6 +2,8 @@
 
 A Clojure library for rendering checkerboards as responsive HTML SVG elements. The checkerboards can be customized with different dimensions and colors, with CSS-responsive styling.
 
+**[🎮 Live Demo](https://arachtivix.github.io/chess-variants-display/)** - See it in action!
+
 ## Features
 
 - Generate checkerboards of any width × height dimensions
