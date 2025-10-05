@@ -3,7 +3,6 @@
 .nrepl-port
 .lein-*
 target/
-pom.xml
 pom.xml.asc
 *.jar
 *.class
