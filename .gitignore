@@ -1,0 +1,22 @@
+# Clojure
+.cpcache/
+.nrepl-port
+.lein-*
+target/
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+
+# Generated example files (users should generate their own)
+example-*.html
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.calva/
+
+# OS
+.DS_Store
+Thumbs.db
