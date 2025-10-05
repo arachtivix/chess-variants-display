@@ -123,6 +123,11 @@ To update the major/minor version, edit the `VERSION` file and update the `build
 - **Solution:** The version is based on git commit count
 - Ensure you have full git history (workflow uses `fetch-depth: 0`)
 
+**Issue:** Tag validation error ("tag_name is not a valid tag")
+- **Solution:** This occurs when creating a release with a non-existent tag without specifying the commit
+- The workflow includes `target_commitish` to specify the commit SHA for the tag
+- This was fixed in the release workflow configuration
+
 ### Using the JAR
 
 **Issue:** JAR doesn't work in other projects
