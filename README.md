@@ -107,13 +107,14 @@ To make the test workflow a required check:
 
 ## GitHub Pages Demo
 
-This repository automatically deploys the `demo.html` file to GitHub Pages whenever changes are merged to the main branch.
+This repository automatically generates and deploys a demo HTML page to GitHub Pages whenever changes are merged to the main branch. The demo is built from code using the `chess-variants-display.demo` namespace.
 
-**Live Demo:** https://arachtivix.github.io/chess-variants-display/demo.html
+**Live Demo:** https://arachtivix.github.io/chess-variants-display/
 
 The deployment workflow:
 - Triggers automatically on pushes to the `main` branch
-- Deploys the demo.html file and any supporting assets
+- Generates the demo HTML from Clojure code
+- Deploys to the `docs/` folder
 - Updates the live demo within minutes of merging changes
 
 For detailed setup instructions and troubleshooting, see [GITHUB_PAGES.md](GITHUB_PAGES.md).
@@ -151,9 +152,15 @@ Returns: Complete HTML document string
 
 ## Examples
 
-See `demo.html` for a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+To see the library in action, you can generate the demo HTML locally:
 
-**Live Demo:** View the demo online at https://arachtivix.github.io/chess-variants-display/demo.html
+```bash
+clojure -M -m chess-variants-display.demo
+```
+
+This creates `docs/index.html` with a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+
+**Live Demo:** View the demo online at https://arachtivix.github.io/chess-variants-display/
 
 ## License
 

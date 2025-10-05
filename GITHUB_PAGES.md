@@ -2,9 +2,9 @@
 
 ## Overview
 
-This repository automatically deploys the `demo.html` file to GitHub Pages whenever code is merged to the main branch. The live demo showcases the CSS-responsive checkerboard functionality with multiple color themes.
+This repository automatically generates and deploys a demo HTML page to GitHub Pages whenever code is merged to the main branch. The demo is built from Clojure code and showcases the CSS-responsive checkerboard functionality with multiple color themes.
 
-**Live Demo:** https://arachtivix.github.io/chess-variants-display/demo.html
+**Live Demo:** https://arachtivix.github.io/chess-variants-display/
 
 ## How It Works
 
@@ -12,12 +12,16 @@ The deployment is handled by the `.github/workflows/deploy-pages.yml` workflow:
 
 1. **Triggers:** Automatically runs on every push to the `main` branch
 2. **Checkout:** Retrieves the latest code from the repository
-3. **Setup Pages:** Configures GitHub Pages environment
-4. **Upload Artifact:** Packages all repository files (including demo.html)
-5. **Deploy:** Publishes the artifact to GitHub Pages
+3. **Setup Java & Clojure:** Installs the required build tools
+4. **Generate Demo:** Runs `clojure -M -m chess-variants-display.demo` to build the HTML
+5. **Setup Pages:** Configures GitHub Pages environment
+6. **Upload Artifact:** Packages the `docs/` folder with generated HTML
+7. **Deploy:** Publishes the artifact to GitHub Pages
 
 The workflow uses official GitHub Actions:
 - `actions/checkout@v4` - Checks out the repository
+- `actions/setup-java@v4` - Installs Java
+- `DeLaGuardo/setup-clojure@12.5` - Installs Clojure CLI
 - `actions/configure-pages@v4` - Sets up Pages configuration
 - `actions/upload-pages-artifact@v3` - Uploads the content
 - `actions/deploy-pages@v4` - Deploys to GitHub Pages
@@ -50,13 +54,23 @@ The workflow includes concurrency settings to:
 
 ## What Gets Deployed
 
-The workflow deploys all files in the repository root:
-- `demo.html` - The main demo file (primary content)
-- Any other files in the repository (for completeness)
+The workflow generates and deploys the demo HTML from code:
+- **Source:** `src/chess-variants-display/demo.clj` - Clojure code that generates the demo
+- **Output:** `docs/index.html` - Generated demo page (created during build)
+- **Deployed to:** GitHub Pages at the repository URL
 
-The demo will be accessible at the root URL and via the direct path:
+The demo will be accessible at:
 - https://arachtivix.github.io/chess-variants-display/
-- https://arachtivix.github.io/chess-variants-display/demo.html
+
+### Building the Demo Locally
+
+You can generate the demo HTML locally to test changes:
+
+```bash
+clojure -M -m chess-variants-display.demo
+```
+
+This creates `docs/index.html` with the complete demo page.
 
 ## Monitoring Deployments
 
@@ -92,16 +106,19 @@ The workflow uses a `github-pages` environment:
 
 ### Making Changes to the Demo
 
-1. Edit `demo.html` locally
-2. Commit and push to your branch
-3. Create a pull request to `main`
-4. After merging, the workflow automatically deploys
-5. Changes appear within 1-2 minutes
+1. Edit `src/chess-variants-display/demo.clj` to modify the demo
+2. Test locally: `clojure -M -m chess-variants-display.demo`
+3. Verify `docs/index.html` looks correct
+4. Commit and push to your branch
+5. Create a pull request to `main`
+6. After merging, the workflow automatically rebuilds and deploys
+7. Changes appear within 1-2 minutes
 
 ## Files
 
 - `.github/workflows/deploy-pages.yml` - Deployment workflow
-- `demo.html` - Demo page (gets deployed)
+- `src/chess-variants-display/demo.clj` - Demo generator (source)
+- `docs/index.html` - Generated demo page (created by build, not committed)
 - `GITHUB_PAGES.md` - This documentation
 
 ## Benefits
@@ -111,3 +128,4 @@ The workflow uses a `github-pages` environment:
 - 🔒 **Secure:** Uses official GitHub Actions with proper permissions
 - 📦 **Simple:** Just merge to main, and it deploys
 - 🌐 **Professional:** Clean URL for sharing demos
+- 🔨 **Built from Code:** Demo is generated from source, ensuring consistency
