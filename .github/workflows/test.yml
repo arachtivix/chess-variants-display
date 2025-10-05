@@ -12,22 +12,22 @@ jobs:
     # Skip if PR is in draft mode (typically when Copilot is still working)
     if: github.event_name == 'push' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
-      
+
       - name: Install Clojure
         uses: DeLaGuardo/setup-clojure@12.5
         with:
           cli: latest
-      
+
       - name: Cache Clojure dependencies
         uses: actions/cache@v3
         with:
@@ -37,6 +37,8 @@ jobs:
           key: ${{ runner.os }}-clojure-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-clojure-
-      
+
       - name: Run tests
-        run: clojure -M:test -e "(require 'chess-variants-display.core-test) (clojure.test/run-tests 'chess-variants-display.core-test)"
+        run: |
+          clojure -M:test -e "(require 'chess-variants-display.core-test) \
+            (clojure.test/run-tests 'chess-variants-display.core-test)"
