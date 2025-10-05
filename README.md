@@ -105,6 +105,29 @@ To make the test workflow a required check:
 3. Enable "Require status checks to pass before merging"
 4. Select "test" as a required status check
 
+## GitHub Pages Demo
+
+This repository automatically generates and deploys a demo HTML page to GitHub Pages whenever changes are merged to the main branch. The demo is built from code using the `chess-variants-display.demo` namespace.
+
+**Live Demo:** https://arachtivix.github.io/chess-variants-display/
+
+The deployment workflow:
+- Triggers automatically on pushes to the `main` branch
+- Generates the demo HTML from Clojure code
+- Deploys to the `docs/` folder
+- Updates the live demo within minutes of merging changes
+
+For detailed setup instructions and troubleshooting, see [GITHUB_PAGES.md](GITHUB_PAGES.md).
+
+### Setting up GitHub Pages (First Time)
+
+If this is a new repository, you'll need to enable GitHub Pages:
+
+1. Go to repository Settings → Pages
+2. Under "Build and deployment", set:
+   - Source: **GitHub Actions**
+3. The deployment workflow will handle the rest automatically
+
 ## API Reference
 
 ### `checkerboard [width height top-left-color]`
@@ -129,7 +152,15 @@ Returns: Complete HTML document string
 
 ## Examples
 
-See `demo.html` for a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+To see the library in action, you can generate the demo HTML locally:
+
+```bash
+clojure -M -m chess-variants-display.demo
+```
+
+This creates `docs/index.html` with a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+
+**Live Demo:** View the demo online at https://arachtivix.github.io/chess-variants-display/
 
 ## License
 

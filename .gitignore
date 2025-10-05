@@ -11,6 +11,9 @@ pom.xml.asc
 # Generated example files (users should generate their own)
 example-*.html
 
+# Generated docs folder (built by CI)
+docs/
+
 # IDE
 .idea/
 *.iml
