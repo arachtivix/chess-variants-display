@@ -20,3 +20,6 @@ example-*.html
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary install scripts
+linux-install.sh
