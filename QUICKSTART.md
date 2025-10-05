@@ -7,10 +7,20 @@
 $ clojure
 
 ;; Load the namespace
-(require '[chess-variants-display.core :refer [checkerboard render-checkerboard-html]])
+(require '[chess-variants-display.core :refer [checkerboard 
+                                                checkerboard-with-pieces 
+                                                standard-chess-position 
+                                                render-checkerboard-html]])
 
 ;; Generate an 8x8 chess board SVG (dark top-left)
 (println (checkerboard 8 8 :dark))
+
+;; Generate a board with the standard chess starting position
+(println (checkerboard-with-pieces 8 8 :dark (standard-chess-position)))
+
+;; Place custom pieces on the board
+(println (checkerboard-with-pieces 8 8 :dark {[3 3] :white-queen 
+                                                [4 4] :black-king}))
 
 ;; Generate a 10x10 checkers board SVG (light top-left)
 (println (checkerboard 10 10 :light))
@@ -53,10 +63,17 @@ Then in your code:
 
 ```clojure
 (ns my-app.core
-  (:require [chess-variants-display.core :refer [checkerboard]]))
+  (:require [chess-variants-display.core :refer [checkerboard 
+                                                  checkerboard-with-pieces 
+                                                  standard-chess-position]]))
 
 (defn my-handler [request]
   {:status 200
    :headers {"Content-Type" "image/svg+xml"}
    :body (checkerboard 8 8 :dark)})
+
+(defn chess-game-handler [request]
+  {:status 200
+   :headers {"Content-Type" "image/svg+xml"}
+   :body (checkerboard-with-pieces 8 8 :dark (standard-chess-position))})
 ```

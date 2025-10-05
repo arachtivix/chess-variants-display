@@ -6,6 +6,7 @@ A Clojure library for rendering checkerboards as responsive HTML SVG elements. T
 
 - Generate checkerboards of any width × height dimensions
 - Control the color of the top-left square (`:light` or `:dark`)
+- Place chess pieces on the board using Unicode symbols
 - SVG output is fully responsive and scalable
 - CSS-based color theming - change colors dynamically using CSS
 - Pure Clojure implementation with no external dependencies beyond core Clojure
@@ -60,6 +61,38 @@ Generate a complete HTML page with embedded SVG:
 (render-checkerboard-html 8 8 :dark "#b58863" "#f0d9b5")
 ```
 
+#### `checkerboard-with-pieces`
+
+Generate an SVG checkerboard with chess pieces:
+
+```clojure
+(require '[chess-variants-display.core :refer [checkerboard-with-pieces standard-chess-position]])
+
+;; Standard chess starting position
+(checkerboard-with-pieces 8 8 :dark (standard-chess-position))
+
+;; Custom piece placement - positions are [row col] with [0 0] being top-left
+(checkerboard-with-pieces 8 8 :dark {[3 3] :white-queen
+                                      [3 4] :black-king
+                                      [4 3] :black-knight
+                                      [4 4] :white-bishop})
+```
+
+Available piece keywords:
+- White pieces: `:white-king`, `:white-queen`, `:white-rook`, `:white-bishop`, `:white-knight`, `:white-pawn`
+- Black pieces: `:black-king`, `:black-queen`, `:black-rook`, `:black-bishop`, `:black-knight`, `:black-pawn`
+
+#### `standard-chess-position`
+
+Returns a map of the standard chess starting position:
+
+```clojure
+(require '[chess-variants-display.core :refer [standard-chess-position]])
+
+(standard-chess-position)
+;; Returns a map with all pieces in their starting positions
+```
+
 ### Running Examples
 
 Generate example HTML files:
@@ -80,6 +113,7 @@ The SVG uses CSS classes for styling, making it easy to change colors:
 ```css
 .dark-square { fill: #769656; }  /* Dark squares */
 .light-square { fill: #eeeed2; } /* Light squares */
+.chess-piece { fill: #000; }     /* Chess piece color */
 ```
 
 You can override these in your stylesheet to create different themes. See `demo.html` for examples of multiple color schemes.
@@ -139,6 +173,20 @@ Parameters:
 
 Returns: SVG string with responsive viewBox
 
+### `checkerboard-with-pieces [width height top-left-color pieces]`
+
+Parameters:
+- `width` - Number of squares wide (integer)
+- `height` - Number of squares tall (integer)
+- `top-left-color` - `:light` or `:dark`
+- `pieces` - Map of positions to piece keywords, e.g. `{[0 0] :white-rook [0 1] :white-knight}`
+
+Returns: SVG string with chess pieces
+
+### `standard-chess-position []`
+
+Returns: Map of the standard chess starting position with all 32 pieces
+
 ### `render-checkerboard-html [width height top-left-color & [dark-color light-color]]`
 
 Parameters:
@@ -158,7 +206,7 @@ To see the library in action, you can generate the demo HTML locally:
 clojure -M -m chess-variants-display.demo
 ```
 
-This creates `docs/index.html` with a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+This creates `docs/index.html` with a comprehensive demonstration of CSS-responsive theming with multiple color schemes and chess piece placement examples.
 
 **Live Demo:** View the demo online at https://arachtivix.github.io/chess-variants-display/
 
