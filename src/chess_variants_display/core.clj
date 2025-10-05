@@ -16,26 +16,28 @@
   - width: number of squares wide
   - height: number of squares tall
   - top-left-color: :light or :dark, determines the color of the top-left square
+  - square-size: (optional) size of each square in pixels (default: 50)
   
   Returns an SVG string with CSS-responsive dark squares."
-  [width height top-left-color]
-  (let [square-size 50
-        svg-width (* width square-size)
-        svg-height (* height square-size)
-        squares (for [row (range height)
-                      col (range width)]
-                  (let [is-even-sum (even? (+ row col))
-                        is-dark (if (= top-left-color :dark)
-                                 is-even-sum
-                                 (not is-even-sum))
-                        x (* col square-size)
-                        y (* row square-size)
-                        css-class (if is-dark "dark-square" "light-square")]
-                    (format "<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" class=\"%s\"/>"
-                            x y square-size square-size css-class)))]
-    (str "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 " svg-width " " svg-height "\" xmlns=\"http://www.w3.org/2000/svg\">"
-         (clojure.string/join "" squares)
-         "</svg>")))
+  ([width height top-left-color]
+   (checkerboard width height top-left-color 50))
+  ([width height top-left-color square-size]
+   (let [svg-width (* width square-size)
+         svg-height (* height square-size)
+         squares (for [row (range height)
+                       col (range width)]
+                   (let [is-even-sum (even? (+ row col))
+                         is-dark (if (= top-left-color :dark)
+                                  is-even-sum
+                                  (not is-even-sum))
+                         x (* col square-size)
+                         y (* row square-size)
+                         css-class (if is-dark "dark-square" "light-square")]
+                     (format "<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" class=\"%s\"/>"
+                             x y square-size square-size css-class)))]
+     (str "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 " svg-width " " svg-height "\" xmlns=\"http://www.w3.org/2000/svg\">"
+          (clojure.string/join "" squares)
+          "</svg>"))))
 
 (defn- piece-unicode
   "Get Unicode character for a chess piece.
@@ -86,35 +88,37 @@
   - top-left-color: :light or :dark, determines the color of the top-left square
   - pieces: map of positions to piece keywords, e.g. {[0 0] :white-rook, [0 1] :white-knight}
             positions are [row col] with [0 0] being top-left
+  - square-size: (optional) size of each square in pixels (default: 50)
   
   Returns an SVG string with CSS-responsive dark squares and pieces."
-  [width height top-left-color pieces]
-  (let [square-size 50
-        svg-width (* width square-size)
-        svg-height (* height square-size)
-        squares (for [row (range height)
-                      col (range width)]
-                  (let [is-even-sum (even? (+ row col))
-                        is-dark (if (= top-left-color :dark)
-                                 is-even-sum
-                                 (not is-even-sum))
-                        x (* col square-size)
-                        y (* row square-size)
-                        css-class (if is-dark "dark-square" "light-square")]
-                    (format "<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" class=\"%s\"/>"
-                            x y square-size square-size css-class)))
-        piece-elements (for [[[row col] piece] pieces]
-                        (let [x (* col square-size)
-                              y (* row square-size)
-                              text-x (+ x (/ square-size 2))
-                              text-y (+ y (/ square-size 2))
-                              unicode-char (piece-unicode piece)]
-                          (format "<text x=\"%d\" y=\"%d\" class=\"chess-piece\" text-anchor=\"middle\" dominant-baseline=\"central\">%s</text>"
-                                  text-x text-y unicode-char)))]
-    (str "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 " svg-width " " svg-height "\" xmlns=\"http://www.w3.org/2000/svg\">"
-         (clojure.string/join "" squares)
-         (clojure.string/join "" piece-elements)
-         "</svg>")))
+  ([width height top-left-color pieces]
+   (checkerboard-with-pieces width height top-left-color pieces 50))
+  ([width height top-left-color pieces square-size]
+   (let [svg-width (* width square-size)
+         svg-height (* height square-size)
+         squares (for [row (range height)
+                       col (range width)]
+                   (let [is-even-sum (even? (+ row col))
+                         is-dark (if (= top-left-color :dark)
+                                  is-even-sum
+                                  (not is-even-sum))
+                         x (* col square-size)
+                         y (* row square-size)
+                         css-class (if is-dark "dark-square" "light-square")]
+                     (format "<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" class=\"%s\"/>"
+                             x y square-size square-size css-class)))
+         piece-elements (for [[[row col] piece] pieces]
+                         (let [x (* col square-size)
+                               y (* row square-size)
+                               text-x (+ x (/ square-size 2))
+                               text-y (+ y (/ square-size 2))
+                               unicode-char (piece-unicode piece)]
+                           (format "<text x=\"%d\" y=\"%d\" class=\"chess-piece\" text-anchor=\"middle\" dominant-baseline=\"central\">%s</text>"
+                                   text-x text-y unicode-char)))]
+     (str "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 " svg-width " " svg-height "\" xmlns=\"http://www.w3.org/2000/svg\">"
+          (clojure.string/join "" squares)
+          (clojure.string/join "" piece-elements)
+          "</svg>"))))
 
 (defn render-checkerboard-html
   "Generate a complete HTML page with an embedded checkerboard SVG.

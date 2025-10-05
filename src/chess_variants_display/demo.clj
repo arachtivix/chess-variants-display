@@ -8,7 +8,30 @@
         board-with-pieces (checkerboard-with-pieces 8 8 :dark (standard-chess-position))
         custom-pieces {[3 3] :white-queen [3 4] :black-king 
                        [4 3] :black-knight [4 4] :white-bishop}
-        board-custom (checkerboard-with-pieces 8 8 :dark custom-pieces)]
+        board-custom (checkerboard-with-pieces 8 8 :dark custom-pieces)
+        
+        ;; Different board sizes
+        small-board (checkerboard-with-pieces 5 5 :dark 
+                      {[2 2] :white-king [1 1] :black-queen [3 3] :white-rook})
+        large-board (checkerboard-with-pieces 10 10 :dark
+                      {[0 0] :black-rook [0 9] :black-rook 
+                       [9 0] :white-rook [9 9] :white-rook
+                       [4 4] :white-queen [5 5] :black-king
+                       [4 5] :white-king [5 4] :black-queen})
+        rectangular-board (checkerboard-with-pieces 12 8 :dark
+                            {[0 5] :black-king [0 6] :black-queen
+                             [7 5] :white-king [7 6] :white-queen
+                             [3 0] :black-rook [3 11] :black-rook
+                             [4 0] :white-rook [4 11] :white-rook})
+        
+        ;; Different square sizes
+        tiny-board (checkerboard-with-pieces 8 8 :dark 
+                     {[0 4] :black-king [7 4] :white-king
+                      [3 3] :white-queen [4 4] :black-queen} 30)
+        large-squares (checkerboard-with-pieces 6 6 :dark
+                        {[0 0] :black-rook [0 5] :black-knight
+                         [5 0] :white-knight [5 5] :white-rook
+                         [2 2] :white-bishop [3 3] :black-bishop} 70)]
     (str "<!DOCTYPE html>\n"
          "<html>\n"
          "<head>\n"
@@ -60,6 +83,11 @@
          "            fill: #000;\n"
          "            pointer-events: none;\n"
          "        }\n"
+         "        \n"
+         "        /* Responsive container widths */\n"
+         "        .small-board { max-width: 300px; }\n"
+         "        .medium-board { max-width: 500px; }\n"
+         "        .large-board { max-width: 700px; }\n"
          "    </style>\n"
          "</head>\n"
          "<body>\n"
@@ -75,6 +103,40 @@
          "        <h2>Custom Piece Placement</h2>\n"
          "        <p>Place any pieces at any position on the board.</p>\n"
          "        " board-custom "\n"
+         "    </div>\n"
+         "    \n"
+         "    <h2>Different Board Sizes</h2>\n"
+         "    \n"
+         "    <div class=\"board-container chess small-board\">\n"
+         "        <h3>5×5 Mini Board</h3>\n"
+         "        <p>A compact board perfect for quick games or puzzles.</p>\n"
+         "        " small-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container blue-gold large-board\">\n"
+         "        <h3>10×10 Large Board</h3>\n"
+         "        <p>Extended board with rooks in corners and royalty in center.</p>\n"
+         "        " large-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container red-white\">\n"
+         "        <h3>12×8 Rectangular Board</h3>\n"
+         "        <p>Wide board variant with pieces spread across the width.</p>\n"
+         "        " rectangular-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <h2>Different Square Dimensions</h2>\n"
+         "    \n"
+         "    <div class=\"board-container dark-mode small-board\">\n"
+         "        <h3>Tiny Squares (30px)</h3>\n"
+         "        <p>Compact display with smaller square dimensions.</p>\n"
+         "        " tiny-board "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container wood large-board\">\n"
+         "        <h3>Large Squares (70px)</h3>\n"
+         "        <p>Spacious board with larger square dimensions for better visibility.</p>\n"
+         "        " large-squares "\n"
          "    </div>\n"
          "    \n"
          "    <h2>Empty Boards with Different Themes</h2>\n"
