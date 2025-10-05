@@ -42,3 +42,26 @@
     (let [html (render-checkerboard-html 8 8 :dark "#ff0000" "#00ff00")]
       (is (re-find #"#ff0000" html))
       (is (re-find #"#00ff00" html)))))
+
+(deftest test-checkerboard-with-pieces
+  (testing "board with pieces has chess-piece text elements"
+    (let [pieces {[0 0] :white-king [7 7] :black-queen}
+          svg (checkerboard-with-pieces 8 8 :dark pieces)]
+      (is (string? svg))
+      (is (re-find #"<svg" svg))
+      (is (re-find #"chess-piece" svg))
+      (is (re-find #"♔" svg))  ; white king
+      (is (re-find #"♛" svg)))) ; black queen
+  (testing "empty piece map creates board without pieces"
+    (let [svg (checkerboard-with-pieces 8 8 :dark {})]
+      (is (re-find #"<svg" svg))
+      (is (not (re-find #"chess-piece" svg))))))
+
+(deftest test-standard-chess-position
+  (testing "standard chess position has all pieces"
+    (let [pos (standard-chess-position)]
+      (is (= 32 (count pos)))  ; 32 pieces on the board
+      (is (= :white-king (get pos [7 4])))
+      (is (= :black-king (get pos [0 4])))
+      (is (= :white-rook (get pos [7 0])))
+      (is (= :black-rook (get pos [0 0]))))))

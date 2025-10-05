@@ -1,10 +1,14 @@
 (ns chess-variants-display.demo
-  (:require [chess-variants-display.core :refer [checkerboard]]))
+  (:require [chess-variants-display.core :refer [checkerboard checkerboard-with-pieces standard-chess-position]]))
 
 (defn generate-demo-html
   "Generate the demo HTML page with multiple color themes."
   []
-  (let [board-svg (checkerboard 8 8 :dark)]
+  (let [board-svg (checkerboard 8 8 :dark)
+        board-with-pieces (checkerboard-with-pieces 8 8 :dark (standard-chess-position))
+        custom-pieces {[3 3] :white-queen [3 4] :black-king 
+                       [4 3] :black-knight [4 4] :white-bishop}
+        board-custom (checkerboard-with-pieces 8 8 :dark custom-pieces)]
     (str "<!DOCTYPE html>\n"
          "<html>\n"
          "<head>\n"
@@ -49,6 +53,13 @@
          "        /* Brown wood theme */\n"
          "        .wood .dark-square { fill: #b58863; }\n"
          "        .wood .light-square { fill: #f0d9b5; }\n"
+         "        \n"
+         "        /* Chess piece styling */\n"
+         "        .chess-piece {\n"
+         "            font-size: 40px;\n"
+         "            fill: #000;\n"
+         "            pointer-events: none;\n"
+         "        }\n"
          "    </style>\n"
          "</head>\n"
          "<body>\n"
@@ -56,27 +67,40 @@
          "    <p>This demonstrates how the same SVG checkerboard can be styled differently using CSS classes.</p>\n"
          "    \n"
          "    <div class=\"board-container chess\">\n"
-         "        <h2>Standard Chess Colors</h2>\n"
+         "        <h2>Standard Chess Starting Position</h2>\n"
+         "        " board-with-pieces "\n"
+         "    </div>\n"
+         "    \n"
+         "    <div class=\"board-container wood\">\n"
+         "        <h2>Custom Piece Placement</h2>\n"
+         "        <p>Place any pieces at any position on the board.</p>\n"
+         "        " board-custom "\n"
+         "    </div>\n"
+         "    \n"
+         "    <h2>Empty Boards with Different Themes</h2>\n"
+         "    \n"
+         "    <div class=\"board-container chess\">\n"
+         "        <h3>Standard Chess Colors</h3>\n"
          "        " board-svg "\n"
          "    </div>\n"
          "    \n"
          "    <div class=\"board-container red-white\">\n"
-         "        <h2>Red & White Theme</h2>\n"
+         "        <h3>Red & White Theme</h3>\n"
          "        " board-svg "\n"
          "    </div>\n"
          "    \n"
          "    <div class=\"board-container blue-gold\">\n"
-         "        <h2>Blue & Gold Theme</h2>\n"
+         "        <h3>Blue & Gold Theme</h3>\n"
          "        " board-svg "\n"
          "    </div>\n"
          "    \n"
          "    <div class=\"board-container dark-mode\">\n"
-         "        <h2>Dark Mode Theme</h2>\n"
+         "        <h3>Dark Mode Theme</h3>\n"
          "        " board-svg "\n"
          "    </div>\n"
          "    \n"
          "    <div class=\"board-container wood\">\n"
-         "        <h2>Brown Wood Theme</h2>\n"
+         "        <h3>Brown Wood Theme</h3>\n"
          "        " board-svg "\n"
          "    </div>\n"
          "</body>\n"
