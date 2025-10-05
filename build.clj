@@ -1,8 +1,19 @@
 (ns build
-  (:require [clojure.tools.build.api :as b]))
+  (:require [clojure.tools.build.api :as b]
+            [clojure.string :as str]))
 
 (def lib 'chess-variants-display/chess-variants-display)
-(def version (format "1.0.%s" (b/git-count-revs nil)))
+
+(defn- read-base-version []
+  (str/trim (slurp "VERSION")))
+
+(defn- calculate-version []
+  (let [base-version (read-base-version)
+        [major minor _] (str/split base-version #"\.")
+        patch (b/git-count-revs nil)]
+    (format "%s.%s.%s" major minor patch)))
+
+(def version (calculate-version))
 (def class-dir "target/classes")
 (def basis (b/create-basis {:project "deps.edn"}))
 (def jar-file (format "target/%s-%s.jar" (name lib) version))

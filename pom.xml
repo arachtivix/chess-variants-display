@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>chess-variants-display</groupId>
   <artifactId>chess-variants-display</artifactId>
-  <version>1.0.0</version>
+  <version>0.0.1</version>
   <name>chess-variants-display</name>
   <description>A Clojure library for rendering checkerboards as responsive HTML SVG elements</description>
   <url>https://github.com/arachtivix/chess-variants-display</url>

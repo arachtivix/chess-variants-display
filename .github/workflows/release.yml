@@ -79,8 +79,11 @@ jobs:
           # Get the version from build output
           VERSION=$(grep -oP 'chess-variants-display-\K[0-9.]+' build.log | head -1)
           if [ -z "$VERSION" ]; then
-            # Fallback: count commits
-            VERSION="1.0.$(git rev-list --count HEAD)"
+            # Fallback: calculate version from VERSION file and commit count
+            BASE_VERSION=$(cat VERSION | tr -d '\n')
+            MAJOR_MINOR=$(echo $BASE_VERSION | cut -d. -f1,2)
+            PATCH=$(git rev-list --count HEAD)
+            VERSION="${MAJOR_MINOR}.${PATCH}"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           JAR_FILE="target/chess-variants-display-${VERSION}.jar"
