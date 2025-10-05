@@ -90,6 +90,21 @@ You can override these in your stylesheet to create different themes. See `demo.
 clojure -M:test -e "(require 'chess-variants-display.core-test) (clojure.test/run-tests 'chess-variants-display.core-test)"
 ```
 
+## Continuous Integration
+
+This project uses GitHub Actions to automatically run tests on pull requests. The workflow:
+
+- Runs tests automatically when a PR is opened or updated
+- Skips running when a PR is in draft mode (e.g., when Copilot is still working on changes)
+- Must pass before a PR can be merged to the main branch
+- Also runs on pushes to the main branch to verify the main branch remains healthy
+
+To make the test workflow a required check:
+1. Go to repository Settings → Branches
+2. Add a branch protection rule for `main`
+3. Enable "Require status checks to pass before merging"
+4. Select "test" as a required status check
+
 ## API Reference
 
 ### `checkerboard [width height top-left-color]`
