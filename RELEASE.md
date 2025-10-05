@@ -6,7 +6,7 @@ This repository automatically creates releases when code is merged to the `main`
 
 - **JAR file** - Ready to use as a dependency in other projects
 - **POM file** - Maven metadata for dependency management
-- **Automatic versioning** - Based on git commit count (1.0.X format)
+- **Automatic versioning** - Based on git commit count (0.0.X format)
 
 ## How It Works
 
@@ -18,11 +18,11 @@ The release process is handled by the `.github/workflows/release.yml` workflow:
 
 2. **Build Phase:**
    - Builds JAR file using `clojure -T:build jar`
-   - Generates version number: `1.0.{commit-count}`
+   - Generates version number: `0.0.{commit-count}`
    - Creates POM file with project metadata
 
 3. **Release Phase:**
-   - Creates a GitHub release with tag `v1.0.X`
+   - Creates a GitHub release with tag `v0.0.X`
    - Uploads JAR file as release asset
    - Uploads POM file as release asset
    - Generates release notes with installation instructions
@@ -47,7 +47,7 @@ Replace `latest-commit-sha` with the actual SHA from the release tag.
 2. Add to your project's classpath:
 
 ```clojure
-{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+{:paths ["src" "libs/chess-variants-display-0.0.X.jar"]}
 ```
 
 ### Option 3: Local Maven Installation
@@ -61,7 +61,7 @@ clojure -T:build install
 Then reference in `deps.edn`:
 
 ```clojure
-{:deps {chess-variants-display/chess-variants-display {:mvn/version "1.0.X"}}}
+{:deps {chess-variants-display/chess-variants-display {:mvn/version "0.0.X"}}}
 ```
 
 ## Building Locally
@@ -72,7 +72,7 @@ Then reference in `deps.edn`:
 clojure -T:build jar
 ```
 
-Output: `target/chess-variants-display-1.0.X.jar`
+Output: `target/chess-variants-display-0.0.X.jar`
 
 ### Install to Local Maven
 
@@ -90,13 +90,13 @@ clojure -T:build clean
 
 ## Versioning
 
-Versions follow the format `1.0.X` where `X` is the git commit count:
+Versions follow the format `0.0.X` where `X` is the git commit count:
 
-- `1.0.1` - First commit
-- `1.0.50` - After 50 commits
+- `0.0.1` - First commit
+- `0.0.50` - After 50 commits
 - etc.
 
-To update the major/minor version, edit the `VERSION` file and update the `build.clj` accordingly.
+The base version (major.minor) is stored in the `VERSION` file. To update it, edit the `VERSION` file (e.g., change to `0.1.0` or `1.0.0`). The patch version is automatically calculated from the git commit count.
 
 ## Workflow Files
 
@@ -104,7 +104,7 @@ To update the major/minor version, edit the `VERSION` file and update the `build
 - `build.clj` - Build configuration using tools.build
 - `deps.edn` - Dependency and build alias configuration
 - `pom.xml` - Maven metadata template
-- `VERSION` - Version file (currently 1.0.0 base)
+- `VERSION` - Version file (currently 0.0.1 base)
 
 ## Troubleshooting
 
@@ -145,8 +145,8 @@ If the automated workflow fails, you can create a release manually:
 
 2. Create a git tag:
    ```bash
-   git tag v1.0.X
-   git push origin v1.0.X
+   git tag v0.0.X
+   git push origin v0.0.X
    ```
 
 3. Go to GitHub → Releases → Create new release

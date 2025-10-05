@@ -69,7 +69,7 @@ Replace `latest-commit-sha` with the SHA from the latest [release](https://githu
 Download the JAR from [releases](https://github.com/arachtivix/chess-variants-display/releases) and add to your `deps.edn`:
 
 ```clojure
-{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+{:paths ["src" "libs/chess-variants-display-0.0.X.jar"]}
 ```
 
 ### Using the Library

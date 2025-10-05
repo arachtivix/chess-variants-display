@@ -39,7 +39,7 @@ Replace `latest-commit-sha` with the SHA from the latest [release](https://githu
 Download the JAR file from the [Releases page](https://github.com/arachtivix/chess-variants-display/releases) and add to your project:
 
 ```clojure
-{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+{:paths ["src" "libs/chess-variants-display-0.0.X.jar"]}
 ```
 
 ### Cloning the Repository
@@ -181,7 +181,7 @@ To make the test workflow a required check:
 ### Automated Releases
 - Automatically creates a release when code is merged to `main` and tests pass
 - Each release includes a JAR file ready for use as a dependency
-- Releases are versioned as `v1.0.X` based on commit count
+- Releases are versioned as `v0.0.X` based on commit count
 - See [RELEASE.md](RELEASE.md) for details on using releases as dependencies
 
 ## GitHub Pages Demo

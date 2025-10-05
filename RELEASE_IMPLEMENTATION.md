@@ -18,7 +18,7 @@ Added build aliases to support JAR creation:
 Created a comprehensive build script with:
 
 - **JAR building** - `clojure -T:build jar`
-  - Generates JAR with versioning based on git commit count (1.0.X format)
+  - Generates JAR with versioning based on git commit count (0.0.X format)
   - Creates POM file with project metadata
   - Bundles all source files
   
@@ -58,7 +58,7 @@ Automated workflow that:
 - Falls back to git commit count if needed
 
 **Release Phase:**
-- Creates GitHub release with tag `v1.0.X`
+- Creates GitHub release with tag `v0.0.X`
 - Uploads JAR file as release asset
 - Uploads POM file as release asset
 - Generates release notes with installation instructions
@@ -84,8 +84,9 @@ Automated workflow that:
 ### 6. Configuration Files
 
 **VERSION:**
-- Base version file (1.0.0)
+- Base version file (0.0.1)
 - Can be updated to change major/minor version
+- Patch version is automatically calculated from git commit count
 
 **.gitignore updates:**
 - Removed `pom.xml` from ignore list (now tracked)
@@ -109,20 +110,21 @@ Upload JAR & POM
 
 ### Versioning Strategy
 
-- Format: `1.0.X` where X = git commit count
+- Format: `0.0.X` where X = git commit count
 - Examples:
-  - v1.0.50 - after 50 commits
-  - v1.0.100 - after 100 commits
-- Major/minor version can be changed by updating VERSION file and build.clj
+  - v0.0.1 - first commit
+  - v0.0.50 - after 50 commits
+  - v0.0.100 - after 100 commits
+- Major/minor version can be changed by updating VERSION file (build.clj reads it automatically)
 
 ### Release Assets
 
 Each release includes:
-1. **JAR file** - `chess-variants-display-1.0.X.jar`
+1. **JAR file** - `chess-variants-display-0.0.X.jar`
    - Contains all source code
    - Can be added directly to classpath
    
-2. **POM file** - `chess-variants-display-1.0.X.pom`
+2. **POM file** - `chess-variants-display-0.0.X.pom`
    - Maven metadata
    - Useful for dependency management
 
@@ -139,7 +141,7 @@ Each release includes:
 ### Option 2: JAR Dependency
 
 ```clojure
-{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+{:paths ["src" "libs/chess-variants-display-0.0.X.jar"]}
 ```
 
 ### Option 3: Local Maven Install
@@ -150,7 +152,7 @@ clojure -T:build install
 
 Then:
 ```clojure
-{:deps {chess-variants-display/chess-variants-display {:mvn/version "1.0.X"}}}
+{:deps {chess-variants-display/chess-variants-display {:mvn/version "0.0.X"}}}
 ```
 
 ## Files Changed
