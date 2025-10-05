@@ -105,6 +105,26 @@ To make the test workflow a required check:
 3. Enable "Require status checks to pass before merging"
 4. Select "test" as a required status check
 
+## GitHub Pages Demo
+
+This repository automatically deploys the `demo.html` file to GitHub Pages whenever changes are merged to the main branch.
+
+**Live Demo:** https://arachtivix.github.io/chess-variants-display/demo.html
+
+The deployment workflow:
+- Triggers automatically on pushes to the `main` branch
+- Deploys the demo.html file and any supporting assets
+- Updates the live demo within minutes of merging changes
+
+### Setting up GitHub Pages (First Time)
+
+If this is a new repository, you'll need to enable GitHub Pages:
+
+1. Go to repository Settings → Pages
+2. Under "Build and deployment", set:
+   - Source: **GitHub Actions**
+3. The deployment workflow will handle the rest automatically
+
 ## API Reference
 
 ### `checkerboard [width height top-left-color]`
@@ -130,6 +150,8 @@ Returns: Complete HTML document string
 ## Examples
 
 See `demo.html` for a comprehensive demonstration of CSS-responsive theming with multiple color schemes.
+
+**Live Demo:** View the demo online at https://arachtivix.github.io/chess-variants-display/demo.html
 
 ## License
 
