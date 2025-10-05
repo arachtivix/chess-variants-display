@@ -20,7 +20,31 @@ A Clojure library for rendering checkerboards as responsive HTML SVG elements. T
 
 ## Installation
 
-Clone the repository:
+### Using as a Dependency
+
+#### Option 1: Git Dependency (Recommended)
+
+Add to your `deps.edn`:
+
+```clojure
+{:deps {chess-variants-display/chess-variants-display 
+        {:git/url "https://github.com/arachtivix/chess-variants-display"
+         :git/sha "latest-commit-sha"}}}
+```
+
+Replace `latest-commit-sha` with the SHA from the latest [release](https://github.com/arachtivix/chess-variants-display/releases).
+
+#### Option 2: JAR Dependency
+
+Download the JAR file from the [Releases page](https://github.com/arachtivix/chess-variants-display/releases) and add to your project:
+
+```clojure
+{:paths ["src" "libs/chess-variants-display-1.0.X.jar"]}
+```
+
+### Cloning the Repository
+
+For development or to build from source:
 
 ```bash
 git clone https://github.com/arachtivix/chess-variants-display.git
@@ -140,8 +164,9 @@ clojure -M:test -e "(require 'chess-variants-display.core-test) (clojure.test/ru
 
 ## Continuous Integration
 
-This project uses GitHub Actions to automatically run tests on pull requests. The workflow:
+This project uses GitHub Actions for automated testing and releases:
 
+### Testing
 - Runs tests automatically when a PR is opened or updated
 - Skips running when a PR is in draft mode (e.g., when Copilot is still working on changes)
 - Must pass before a PR can be merged to the main branch
@@ -152,6 +177,12 @@ To make the test workflow a required check:
 2. Add a branch protection rule for `main`
 3. Enable "Require status checks to pass before merging"
 4. Select "test" as a required status check
+
+### Automated Releases
+- Automatically creates a release when code is merged to `main` and tests pass
+- Each release includes a JAR file ready for use as a dependency
+- Releases are versioned as `v1.0.X` based on commit count
+- See [RELEASE.md](RELEASE.md) for details on using releases as dependencies
 
 ## GitHub Pages Demo
 

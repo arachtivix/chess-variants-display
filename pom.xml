@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>chess-variants-display</groupId>
+  <artifactId>chess-variants-display</artifactId>
+  <version>1.0.0</version>
+  <name>chess-variants-display</name>
+  <description>A Clojure library for rendering checkerboards as responsive HTML SVG elements</description>
+  <url>https://github.com/arachtivix/chess-variants-display</url>
+  <licenses>
+    <license>
+      <name>Eclipse Public License</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>arachtivix</name>
+    </developer>
+  </developers>
+  <scm>
+    <url>https://github.com/arachtivix/chess-variants-display</url>
+    <connection>scm:git:git://github.com/arachtivix/chess-variants-display.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/arachtivix/chess-variants-display.git</developerConnection>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>clojure</artifactId>
+      <version>1.11.1</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+  </build>
+  <repositories>
+    <repository>
+      <id>clojars</id>
+      <url>https://repo.clojars.org/</url>
+    </repository>
+  </repositories>
+</project>

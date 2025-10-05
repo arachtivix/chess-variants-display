@@ -1,0 +1,119 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Ensure tests pass before releasing
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Install Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: latest
+
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-clojure-
+
+      - name: Run tests
+        run: |
+          clojure -M:test -e "(require 'chess-variants-display.core-test) \
+            (clojure.test/run-tests 'chess-variants-display.core-test)"
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for version numbering
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Install Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: latest
+
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-clojure-
+
+      - name: Build JAR
+        id: build
+        run: |
+          clojure -T:build jar 2>&1 | tee build.log
+          # Get the version from build output
+          VERSION=$(grep -oP 'chess-variants-display-\K[0-9.]+' build.log | head -1)
+          if [ -z "$VERSION" ]; then
+            # Fallback: count commits
+            VERSION="1.0.$(git rev-list --count HEAD)"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          JAR_FILE="target/chess-variants-display-${VERSION}.jar"
+          echo "jar_file=$JAR_FILE" >> $GITHUB_OUTPUT
+          ls -la target/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.build.outputs.version }}
+          name: Release v${{ steps.build.outputs.version }}
+          body: |
+            ## Chess Variants Display Library v${{ steps.build.outputs.version }}
+            
+            A Clojure library for rendering checkerboards as responsive HTML SVG elements.
+            
+            ### Installation
+            
+            Add to your `deps.edn`:
+            
+            ```clojure
+            {:deps {chess-variants-display/chess-variants-display 
+                    {:git/url "https://github.com/arachtivix/chess-variants-display"
+                     :git/sha "${{ github.sha }}"}}}
+            ```
+            
+            Or download the JAR file below and add to your classpath.
+            
+            ### What's Changed
+            
+            Full Changelog: https://github.com/arachtivix/chess-variants-display/commits/v${{ steps.build.outputs.version }}
+          files: |
+            ${{ steps.build.outputs.jar_file }}
+            target/classes/META-INF/maven/chess-variants-display/chess-variants-display/pom.xml
+          draft: false
+          prerelease: false
