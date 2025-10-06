@@ -9,7 +9,9 @@ $ clojure
 ;; Load the namespace
 (require '[chess-variants-display.core :refer [checkerboard 
                                                 checkerboard-with-pieces 
-                                                standard-chess-position 
+                                                standard-chess-position
+                                                fen->pieces
+                                                fen->avg-material-value
                                                 render-checkerboard-html]])
 
 ;; Generate an 8x8 chess board SVG (dark top-left)
@@ -21,6 +23,13 @@ $ clojure
 ;; Place custom pieces on the board
 (println (checkerboard-with-pieces 8 8 :dark {[3 3] :white-queen 
                                                 [4 4] :black-king}))
+
+;; Convert FEN notation to pieces map
+(def fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+(println (checkerboard-with-pieces 8 8 :dark (fen->pieces fen)))
+
+;; Calculate average material value from FEN
+(println "Average material value:" (fen->avg-material-value fen))
 
 ;; Generate a 10x10 checkers board SVG (light top-left)
 (println (checkerboard 10 10 :light))
@@ -80,7 +89,8 @@ Then in your code:
 (ns my-app.core
   (:require [chess-variants-display.core :refer [checkerboard 
                                                   checkerboard-with-pieces 
-                                                  standard-chess-position]]))
+                                                  standard-chess-position
+                                                  fen->pieces]]))
 
 (defn my-handler [request]
   {:status 200
@@ -91,4 +101,10 @@ Then in your code:
   {:status 200
    :headers {"Content-Type" "image/svg+xml"}
    :body (checkerboard-with-pieces 8 8 :dark (standard-chess-position))})
+
+(defn fen-handler [request]
+  (let [fen (get-in request [:params :fen])]
+    {:status 200
+     :headers {"Content-Type" "image/svg+xml"}
+     :body (checkerboard-with-pieces 8 8 :dark (fen->pieces fen))}))
 ```
