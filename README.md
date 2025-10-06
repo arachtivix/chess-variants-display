@@ -119,6 +119,43 @@ Returns a map of the standard chess starting position:
 ;; Returns a map with all pieces in their starting positions
 ```
 
+#### `fen->pieces`
+
+Convert FEN (Forsyth-Edwards Notation) to pieces map format:
+
+```clojure
+(require '[chess-variants-display.core :refer [fen->pieces]])
+
+;; Standard starting position
+(fen->pieces "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+;; Returns the same as (standard-chess-position)
+
+;; Just piece placement (without game state)
+(fen->pieces "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+
+;; Custom position
+(fen->pieces "4k3/8/8/3Q4/8/8/8/4K3")
+;; Returns {[0 4] :black-king, [3 3] :white-queen, [7 4] :white-king}
+```
+
+#### `fen->avg-material-value`
+
+Calculate average material value from a FEN position:
+
+```clojure
+(require '[chess-variants-display.core :refer [fen->avg-material-value]])
+
+;; Standard starting position (78 total value / 32 pieces = 2.4375)
+(fen->avg-material-value "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+;; => 2.4375
+
+;; Two kings and a queen (18 total value / 3 pieces = 6.0)
+(fen->avg-material-value "4k3/8/8/3Q4/8/8/8/4K3")
+;; => 3.0 (kings have 0 value, only queen counts)
+```
+
+Material values used: Pawn=1, Knight=3, Bishop=3, Rook=5, Queen=9, King=0
+
 ### Running Examples
 
 Generate example HTML files:
@@ -231,6 +268,28 @@ Returns: SVG string with chess pieces
 ### `standard-chess-position []`
 
 Returns: Map of the standard chess starting position with all 32 pieces
+
+### `fen->pieces [fen]`
+
+Convert FEN (Forsyth-Edwards Notation) to pieces map format.
+
+Parameters:
+- `fen` - FEN string (can be full FEN or just the piece placement part)
+
+Returns: Map of `[row col]` -> piece keyword
+
+FEN notation describes positions from rank 8 (row 0) to rank 1 (row 7). Uppercase letters are white pieces, lowercase are black. Numbers indicate empty squares.
+
+### `fen->avg-material-value [fen]`
+
+Calculate average material value from a FEN position.
+
+Parameters:
+- `fen` - FEN string (can be full FEN or just the piece placement part)
+
+Returns: Average material value as a double
+
+Material values: Pawn=1, Knight=3, Bishop=3, Rook=5, Queen=9, King=0 (invaluable)
 
 ### `render-checkerboard-html [width height top-left-color & [dark-color light-color]]`
 
